@@ -30,7 +30,8 @@ mem_block *join_blocks (mem_block *left_block)
         mem_blocks_tail = left_block;
 
     left_block -> next  = right_block -> next;
-    left_block -> size  = left_block -> size + right_block -> size + sizeof (mem_block);
+    left_block -> size  = left_block -> size + right_block -> size + 
+                            sizeof (mem_block);
 
     return (left_block);
 }
