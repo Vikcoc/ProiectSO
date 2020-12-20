@@ -16,5 +16,23 @@
  */
 mem_block *create_block (size_t size)
 {
+    mem_block   *new_block;
+    mem_block   *old_tail = mem_blocks_tail;
 
+    new_block = sbrk (size);
+    if (new_block == (void*) - 1)
+        return (NULL);
+
+    if (mem_blocks_head == NULL)
+        mem_blocks_head = new_block;
+    else
+        mem_blocks_tail -> next = new_block;
+
+    mem_blocks_tail     = (mem_block*) new_block;
+    new_block -> free   = false;
+    new_block -> next   = NULL;
+    new_block -> prev   = old_tail;
+    new_block -> size   = size - sizeof (mem_block);
+
+    return (new_block);
 }
