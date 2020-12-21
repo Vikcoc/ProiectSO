@@ -11,12 +11,12 @@
 
 #define ALIGNMENT 8
 
-typedef struct
+typedef struct mem_block
 {
-    void    *next;
-    void    *prev;
-    size_t  size;
-    bool    free;
+    struct mem_block    *next;
+    struct mem_block    *prev;
+    size_t              size;
+    bool                free;
 }   mem_block;
 
 static mem_block *mem_blocks_head = NULL;

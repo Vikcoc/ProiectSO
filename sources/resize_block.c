@@ -29,5 +29,21 @@
  */
 mem_block *resize_block (mem_block *block, size_t new_size)
 {
+    if(block -> size < new_size)
+        return (NULL);
 
+    if (block -> size - sizeof(mem_block) < new_size)
+        return (block);
+    
+    mem_block *blk = ((char*) block) + sizeof(mem_block) + new_size;
+    blk -> free = true;
+    blk -> prev = block;
+    blk -> next = block -> next;
+    blk -> size = block -> size - new_size - sizeof(mem_block);
+    block -> next = blk;
+    block -> size = new_size;
+    if(blk -> next != NULL)
+        blk -> next -> prev = blk;
+    
+    return (block);
 }
