@@ -19,8 +19,8 @@ typedef struct mem_block
     bool                free;
 }   mem_block;
 
-static mem_block *mem_blocks_head = NULL;
-static mem_block *mem_blocks_tail = NULL;
+extern mem_block *mem_blocks_head;
+extern mem_block *mem_blocks_tail;
 
 void *m_malloc (size_t size);
 

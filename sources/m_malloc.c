@@ -1,5 +1,8 @@
 #include "../includes/alloc.h"
 
+mem_block *mem_blocks_head = NULL;
+mem_block *mem_blocks_tail = NULL;
+
 /*
  * Function: m_malloc
  * ------------------
