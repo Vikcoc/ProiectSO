@@ -43,10 +43,13 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     block -> next = blk;
     block -> size = new_size;
     if(blk -> next != NULL)
+    {
         blk -> next -> prev = blk;
+        if(blk -> next -> free)
+            join_blocks(blk);
+    }
     else
         mem_blocks_tail = blk;
-    
     
     return (block);
 }
