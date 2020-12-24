@@ -16,5 +16,24 @@
  */
 void m_free (void *ptr)
 {
+    mem_block *curr_block = mem_blocks_head;
 
+    if (ptr <= NULL)
+        return;
+
+    while (curr_block != NULL && curr_block + sizeof (mem_block) != ptr)
+        curr_block = curr_block -> next;
+
+    if (curr_block == NULL)
+        return;
+
+    curr_block -> free = true;
+
+    if (curr_block -> prev != NULL && curr_block -> prev -> free == true)
+        curr_block = join_blocks (curr_block -> prev);
+
+    if (curr_block -> next != NULL && curr_block -> next -> free == true)
+        join_blocks (curr_block);
+
+    return;
 }
