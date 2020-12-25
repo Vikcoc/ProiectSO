@@ -20,18 +20,22 @@
  */
 mem_block *join_blocks (mem_block *left_block)
 {
-    mem_block *right_block;
+    mem_block *right_block = left_block -> next;
 
-    if (left_block -> next == NULL)
+    if (right_block == NULL)
         return (NULL);
 
-    right_block = left_block -> next;
     if (mem_blocks_tail == right_block)
+    {
         mem_blocks_tail = left_block;
+        left_block -> next = NULL;
+    }
 
+    if (left_block -> next != NULL && left_block -> next -> next != NULL)
+        left_block -> next -> next -> prev  = left_block;
     left_block -> next  = right_block -> next;
     left_block -> size  = left_block -> size + right_block -> size + 
-                            sizeof (mem_block);
+                                    sizeof (mem_block);
 
     return (left_block);
 }
