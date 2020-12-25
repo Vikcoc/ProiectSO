@@ -18,10 +18,10 @@ void m_free (void *ptr)
 {
     mem_block *curr_block = mem_blocks_head;
 
-    if (ptr <= NULL)
+    if (ptr == NULL)
         return;
 
-    while (curr_block != NULL && curr_block + sizeof (mem_block) != ptr)
+    while (curr_block != NULL && ptr - sizeof (mem_block) != curr_block)
         curr_block = curr_block -> next;
 
     if (curr_block == NULL)
