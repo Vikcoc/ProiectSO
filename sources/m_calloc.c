@@ -1,4 +1,5 @@
 #include "../includes/alloc.h"
+#include <string.h>
 
 /*
  * Function: m_calloc
@@ -19,5 +20,13 @@
  */
 void *m_calloc (size_t num, size_t size)
 {
-
+    if(num < 1 || size < 1)
+        return NULL;
+    
+    mem_block *ret_block = (mem_block*) m_malloc(num * size);
+    if (ret_block == NULL)
+        return NULL;
+    
+    memset(ret_block, 0, (ret_block - 1) -> size);
+    return ret_block;
 }

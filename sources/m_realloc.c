@@ -1,4 +1,5 @@
 #include "../includes/alloc.h"
+#include <string.h>
 
 /*
  * Function: m_realloc
@@ -28,5 +29,35 @@
  */
 void *m_realloc (void *ptr, size_t new_size)
 {
+    if (new_size < 1)
+        return NULL;
+    
+    if (ptr == NULL)
+        return m_malloc (new_size);
+    
+    mem_block *ret_block = ((mem_block*) ptr) -1;
+    if(ret_block -> size > new_size)
+    {
+        ret_block = resize_block(ret_block, new_size);
+        if(ret_block == NULL)
+            return NULL;
+        return ret_block + 1;
+    }
+    
+    if(ret_block == mem_blocks_tail)
+    {
+        create_block(new_size - ret_block -> size - sizeof(mem_block));
+        if(ret_block == mem_blocks_tail)
+            return NULL;
+        join_blocks(ret_block);
+        return ret_block + 1;
+    }
 
+    void *ret2 = m_malloc(new_size);
+    if(ret2 == NULL)
+        return NULL;
+
+    memcpy(ret2, ptr, ret_block -> size);
+    m_free(ret_block +1);
+    return ret2;
 }
