@@ -32,10 +32,12 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     if(block -> size < new_size)
         return (NULL);
     
-    if (block -> size - new_size < sizeof (mem_block) + ALIGNMENT)
+    if (block -> size - new_size < ((sizeof (mem_block) + ALIGNMENT - 1)
+            & (~(ALIGNMENT - 1))))
         return (block);
     
-    mem_block *blk  = ((char*) block) + sizeof(mem_block) + new_size;
+    mem_block *blk  = (mem_block*) ((char*) block) + sizeof(mem_block)
+                        + new_size;
     blk -> free     = true;
     blk -> prev     = block;
     blk -> next     = block -> next;

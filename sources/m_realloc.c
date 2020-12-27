@@ -30,34 +30,56 @@
 void *m_realloc (void *ptr, size_t new_size)
 {
     if (new_size < 1)
-        return NULL;
+        return (NULL);
     
     if (ptr == NULL)
-        return m_malloc (new_size);
-    
+        return (m_malloc (new_size));
+
+    new_size = (new_size + ALIGNMENT - 1) & (~(ALIGNMENT - 1));
     mem_block *ret_block = ((mem_block*) ptr) -1;
+    if(ret_block -> size == new_size)
+        return (ptr);
     if(ret_block -> size > new_size)
     {
         ret_block = resize_block(ret_block, new_size);
         if(ret_block == NULL)
-            return NULL;
-        return ret_block + 1;
+            return (NULL);
+
+        return (ret_block + 1);
     }
     
     if(ret_block == mem_blocks_tail)
     {
-        create_block(new_size - ret_block -> size - sizeof(mem_block));
-        if(ret_block == mem_blocks_tail)
-            return NULL;
-        join_blocks(ret_block);
-        return ret_block + 1;
+        size_t temp = new_size - ret_block -> size;
+        printf("dimensiune %ld\n",temp);
+        if(extend_block(ret_block,temp) == NULL)
+            return (NULL);
+        
+        return (ret_block + 1);
+    }
+
+    if(ret_block -> next -> free && ret_block -> next -> size
+        >= new_size - ret_block -> size)
+    {
+        ret_block = join_blocks (ret_block);
+        if(ret_block == NULL)
+            return (NULL);
+        
+        if(ret_block -> size == new_size)
+            return (ret_block);
+
+        ret_block = resize_block(ret_block,new_size);
+        if(ret_block == NULL)
+            return (NULL);
+        
+        return (ret_block);
     }
 
     void *ret2 = m_malloc(new_size);
     if(ret2 == NULL)
-        return NULL;
+        return (NULL);
 
     memcpy(ret2, ptr, ret_block -> size);
     m_free(ret_block +1);
-    return ret2;
+    return (ret2);
 }

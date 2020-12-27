@@ -38,4 +38,6 @@ mem_block *resize_block (mem_block *block, size_t new_size);
 
 mem_block *join_blocks (mem_block *left_block);
 
+mem_block *extend_block (mem_block *block, size_t size);
+
 #endif //ALLOC_H
