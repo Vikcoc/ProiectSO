@@ -11,8 +11,8 @@ $(EXECUTABLE): $(OBJECTS)
 	@ $(CC) $(OBJECTS) -o $@
 
 %.o: %.c
-	@ $(CC) $(CFLAGS) -c -o $@ $<
 	@ echo "\033[32;1mCompiling:\033[0m\t$<"
+	@ $(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	@ echo "\033[32;1mCleaning object files and executable\033[0m"
