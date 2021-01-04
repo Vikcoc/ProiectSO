@@ -27,6 +27,6 @@ void *m_calloc (size_t num, size_t size)
     if (ret_block == NULL)
         return NULL;
     
-    memset(ret_block, 0, (ret_block - 1) -> size);
+    ft_memset(ret_block, 0, (ret_block - 1) -> size);
     return ret_block;
 }

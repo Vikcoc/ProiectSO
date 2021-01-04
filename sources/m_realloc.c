@@ -57,7 +57,7 @@ void *m_realloc (void *ptr, size_t new_size)
     if(ret2 == NULL)
         return NULL;
 
-    memcpy(ret2, ptr, ret_block -> size);
+    ft_memcpy(ret2, ptr, ret_block -> size);
     m_free(ret_block +1);
     return ret2;
 }

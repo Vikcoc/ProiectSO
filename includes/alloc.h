@@ -38,4 +38,8 @@ mem_block *resize_block (mem_block *block, size_t new_size);
 
 mem_block *join_blocks (mem_block *left_block);
 
+void *ft_memcpy(void *d, const void *s, size_t n);
+
+void *ft_memset(void *s, int c, size_t n);
+
 #endif //ALLOC_H
