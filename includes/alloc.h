@@ -22,6 +22,7 @@ extern mem_block *mem_blocks_head;
 extern mem_block *mem_blocks_tail;
 
 extern pthread_mutex_t mem_mutex;
+extern pthread_mutex_t write_mutex;
 
 void *malloc (size_t size);
 
