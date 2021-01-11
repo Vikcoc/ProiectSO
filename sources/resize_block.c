@@ -38,12 +38,12 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     
     mem_block *blk  = (mem_block*) ((char*) block) + sizeof(mem_block)
                         + new_size;
-    blk -> free     = true;
+    blk -> free     = false;
     blk -> prev     = block;
     blk -> next     = block -> next;
+    block -> size   = new_size;
     blk -> size     = block -> size - new_size - sizeof(mem_block);
     block -> next   = blk;
-    block -> size   = new_size;
     if(blk -> next != NULL)
     {
         blk -> next -> prev = blk;
@@ -52,6 +52,8 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     }
     else
         mem_blocks_tail = blk;
+
+    blk -> free     = true;
     
     return (block);
 }

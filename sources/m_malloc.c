@@ -35,8 +35,8 @@ void *m_malloc (size_t size)
     ret_block = find_free_block (size);
     if (ret_block != NULL)
     {
-        ret_block = resize_block (ret_block, size);
         ret_block -> free = false;
+        ret_block = resize_block (ret_block, size);
     }
     else
     {

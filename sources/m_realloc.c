@@ -1,5 +1,4 @@
 #include "../includes/alloc.h"
-#include <string.h>
 
 /*
  * Function: m_realloc
@@ -37,6 +36,9 @@ void *m_realloc (void *ptr, size_t new_size)
 
     new_size = (new_size + ALIGNMENT - 1) & (~(ALIGNMENT - 1));
     mem_block *ret_block = ((mem_block*) ptr) -1;
+
+    // TODO check block exists
+
     if(ret_block -> size == new_size)
         return (ptr);
     if(ret_block -> size > new_size)
@@ -51,7 +53,6 @@ void *m_realloc (void *ptr, size_t new_size)
     if(ret_block == mem_blocks_tail)
     {
         size_t temp = new_size - ret_block -> size;
-        printf("dimensiune %ld\n",temp);
         if(extend_block(ret_block,temp) == NULL)
             return (NULL);
         
