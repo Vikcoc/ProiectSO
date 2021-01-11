@@ -2,8 +2,7 @@
 #define ALLOC_H
 
 #include <unistd.h>
-
-#include <stdio.h>  // DEBUG
+#include <pthread.h>
 
 #define bool char
 #define true 1
@@ -22,13 +21,15 @@ typedef struct mem_block
 extern mem_block *mem_blocks_head;
 extern mem_block *mem_blocks_tail;
 
-void *m_malloc (size_t size);
+extern pthread_mutex_t mem_mutex;
 
-void m_free (void *ptr);
+void *malloc (size_t size);
 
-void *m_realloc (void *ptr, size_t new_size);
+void free (void *ptr);
 
-void *m_calloc (size_t num, size_t size);
+void *realloc (void *ptr, size_t new_size);
+
+void *calloc (size_t num, size_t size);
 
 mem_block *find_free_block (size_t size);
 

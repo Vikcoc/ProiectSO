@@ -18,15 +18,20 @@
  * Implementation: m_malloc (num * size) is called. If m_malloc returns a value
  *                 other than NULL, all bytes of the new_block are set to 0.
  */
-void *m_calloc (size_t num, size_t size)
+void *calloc (size_t num, size_t size)
 {
+    pthread_mutex_lock (&mem_mutex);
     if(num < 1 || size < 1)
         return NULL;
     
-    mem_block *ret_block = (mem_block*) m_malloc(num * size);
+    mem_block *ret_block = (mem_block*) malloc(num * size);
     if (ret_block == NULL)
+    {
+        pthread_mutex_unlock (&mem_mutex);
         return NULL;
+    }
     
     ft_memset(ret_block, 0, (ret_block - 1) -> size);
+    pthread_mutex_unlock (&mem_mutex);
     return ret_block;
 }

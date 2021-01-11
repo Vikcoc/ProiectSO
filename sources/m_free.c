@@ -14,18 +14,25 @@
  *                 the adjacent free blocks into one free block with
  *                 'join_blocks'.
  */
-void m_free (void *ptr)
+void free (void *ptr)
 {
+    pthread_mutex_lock (&mem_mutex);
     mem_block *curr_block = mem_blocks_head;
 
     if (ptr == NULL)
+    {
+        pthread_mutex_unlock (&mem_mutex);
         return;
+    }
 
     while (curr_block != NULL && ptr - sizeof (mem_block) != curr_block)
         curr_block = curr_block -> next;
 
     if (curr_block == NULL)
+    {   
+        pthread_mutex_unlock (&mem_mutex);
         return;
+    }
 
     curr_block -> free = true;
 
@@ -35,5 +42,6 @@ void m_free (void *ptr)
     if (curr_block -> next != NULL && curr_block -> next -> free == true)
         join_blocks (curr_block);
 
+    pthread_mutex_unlock (&mem_mutex);
     return;
 }

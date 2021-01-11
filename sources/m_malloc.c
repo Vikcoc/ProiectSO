@@ -1,7 +1,8 @@
 #include "../includes/alloc.h"
 
-mem_block *mem_blocks_head = NULL;
-mem_block *mem_blocks_tail = NULL;
+mem_block       *mem_blocks_head    = NULL;
+mem_block       *mem_blocks_tail    = NULL;
+pthread_mutex_t mem_mutex           = PTHREAD_MUTEX_INITIALIZER;
 
 /*
  * Function: m_malloc
@@ -23,12 +24,16 @@ mem_block *mem_blocks_tail = NULL;
  *      to ALIGNMENT.
  */
 
-void *m_malloc (size_t size)
+void *malloc (size_t size)
 {
+    pthread_mutex_lock (&mem_mutex);
     mem_block *ret_block;
 
     if (size <= 0)
+    {
+        pthread_mutex_unlock (&mem_mutex);
         return (NULL);
+    }
 
     size = (size + ALIGNMENT - 1) & (~(ALIGNMENT - 1));
 
@@ -43,8 +48,12 @@ void *m_malloc (size_t size)
         ret_block = create_block (size);
 
         if (ret_block == NULL)
+        {
+            pthread_mutex_unlock (&mem_mutex);
             return (NULL);
+        }
     }
     
+    pthread_mutex_unlock (&mem_mutex);
     return (ret_block + 1);
 }
