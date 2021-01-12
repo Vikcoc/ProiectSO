@@ -29,6 +29,8 @@
 void *realloc (void *ptr, size_t new_size)
 {
     pthread_mutex_lock (&mem_mutex);
+
+    // write(1,"realloc\n",8);
     if (new_size < 1)
     {
         pthread_mutex_unlock (&mem_mutex);
@@ -113,7 +115,9 @@ void *realloc (void *ptr, size_t new_size)
         return (ret_block);
     }
 
+    pthread_mutex_unlock (&mem_mutex);
     void *ret2 = malloc(new_size);
+    pthread_mutex_lock (&mem_mutex);
     if(ret2 == NULL)
     {
         pthread_mutex_unlock (&mem_mutex);
@@ -121,7 +125,9 @@ void *realloc (void *ptr, size_t new_size)
     }
 
     ft_memcpy(ret2, ptr, ret_block -> size);
-    free(ret_block +1);
+    pthread_mutex_unlock (&mem_mutex);
+    free (ptr);
+    pthread_mutex_lock (&mem_mutex);
     pthread_mutex_unlock (&mem_mutex);
     return (ret2);
 }

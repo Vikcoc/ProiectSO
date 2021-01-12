@@ -90,9 +90,6 @@ void *malloc (size_t size)
     pthread_mutex_lock (&mem_mutex);
     mem_block *ret_block;
 
-    // write(1,"aoloo\n",7);
-    debug_print_blocks();
-
     if (size <= 0)
     {
         pthread_mutex_unlock (&mem_mutex);

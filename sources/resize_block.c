@@ -29,11 +29,18 @@
  */
 mem_block *resize_block (mem_block *block, size_t new_size)
 {
+    size_t free_block_size = (block -> size - new_size + ALIGNMENT - 1) & 
+                                (~(ALIGNMENT - 1));
+
+    if (block -> size == new_size || block -> size - new_size <= 
+        free_block_size + sizeof(mem_block))
+        return (block);
+
     if(block -> size < new_size)
         return (NULL);
     
-    if (block -> size - new_size < ((sizeof (mem_block) + ALIGNMENT - 1)
-            & (~(ALIGNMENT - 1))))
+    if (block -> size - new_size - sizeof(mem_block) <= 
+        ((sizeof (mem_block) + ALIGNMENT - 1) & (~(ALIGNMENT - 1))))
         return (block);
     
     mem_block *blk  = (mem_block*) ((char*) block) + sizeof(mem_block)
@@ -43,6 +50,12 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     blk -> next     = block -> next;
     block -> size   = new_size;
     blk -> size     = block -> size - new_size - sizeof(mem_block);
+    // write (1, "\n\nBlock size: ", 14);
+    // print_number (block -> size);
+    // write (1, "\nNew size: ", 11);
+    // print_number (new_size);
+    // write (1, "\nFree block size: ", 18);
+    print_number (block -> size - new_size - sizeof(mem_block));
     block -> next   = blk;
     if(blk -> next != NULL)
     {
@@ -53,7 +66,7 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     else
         mem_blocks_tail = blk;
 
-    blk -> free     = true;
+    blk -> free = true;
     
     return (block);
 }

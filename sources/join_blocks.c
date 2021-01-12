@@ -33,8 +33,8 @@ mem_block *join_blocks (mem_block *left_block)
         left_block -> next = NULL;
     }
 
-    if (left_block -> next != NULL && left_block -> next -> next != NULL)
-        left_block -> next -> next -> prev  = left_block;
+    if (right_block -> next != NULL)
+        right_block -> next -> prev = left_block;
     left_block -> next  = right_block -> next;
     left_block -> size  = left_block -> size + right_block -> size + 
                                     sizeof (mem_block);

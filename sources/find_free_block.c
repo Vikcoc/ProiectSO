@@ -23,7 +23,8 @@ mem_block *find_free_block (size_t size)
 
     while (src != NULL)
     {
-        if (src -> size >= size && src -> free == true)
+        
+        if (src -> free == true && src -> size >= size)
             return (src);
 
         src = src -> next;

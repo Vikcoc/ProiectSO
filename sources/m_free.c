@@ -17,6 +17,7 @@
 void free (void *ptr)
 {
     pthread_mutex_lock (&mem_mutex);
+
     mem_block *curr_block = mem_blocks_head;
 
     if (ptr == NULL)
@@ -29,11 +30,16 @@ void free (void *ptr)
         curr_block = curr_block -> next;
 
     if (curr_block == NULL)
-    {   
+    {  
         pthread_mutex_unlock (&mem_mutex);
         return;
     }
 
+    if (curr_block -> free == true)
+    {
+        pthread_mutex_unlock (&mem_mutex);
+        return;
+    }
     curr_block -> free = true;
 
     if (curr_block -> prev != NULL && curr_block -> prev -> free == true)
