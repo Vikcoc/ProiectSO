@@ -14,12 +14,16 @@ typedef struct mem_block
 {
     struct mem_block    *next;
     struct mem_block    *prev;
+    struct mem_block    *fnext;
+    struct mem_block    *fprev;
     size_t              size;
     bool                free;
 }   mem_block;
 
 extern mem_block *mem_blocks_head;
 extern mem_block *mem_blocks_tail;
+extern mem_block *mem_blocks_fhead;
+extern mem_block *mem_blocks_ftail;
 
 extern pthread_mutex_t mem_mutex;
 extern pthread_mutex_t write_mutex;
@@ -41,6 +45,8 @@ mem_block *resize_block (mem_block *block, size_t new_size);
 mem_block *join_blocks (mem_block *left_block);
 
 mem_block *extend_block (mem_block *block, size_t size);
+
+mem_block *add_in_flist (mem_block *curr_block);
 
 void *ft_memcpy (void *d, const void *s, size_t n);
 

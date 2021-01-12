@@ -19,7 +19,7 @@
  */
 mem_block *find_free_block (size_t size)
 {
-    mem_block *src = mem_blocks_head;
+    mem_block *src = mem_blocks_fhead;
 
     while (src != NULL)
     {
@@ -27,8 +27,19 @@ mem_block *find_free_block (size_t size)
         if (src -> free == true && src -> size >= size)
             return (src);
 
-        src = src -> next;
+        src = src -> fnext;
     }
+
+    // mem_block *src = mem_blocks_head;
+
+    // while (src != NULL)
+    // {
+        
+    //     if (src -> free == true && src -> size >= size)
+    //         return (src);
+
+    //     src = src -> next;
+    // }
 
     return (NULL);
 }

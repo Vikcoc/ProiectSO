@@ -25,6 +25,13 @@ mem_block *join_blocks (mem_block *left_block)
     if (right_block == NULL)
         return (NULL);
 
+    if(right_block -> free == true)
+    {
+        if(right_block != mem_blocks_fhead)
+            right_block -> fprev -> fnext = right_block -> fnext;
+        if(right_block != mem_blocks_ftail)
+            right_block -> fnext -> fprev = right_block -> fprev;
+    }
     right_block -> free = false;
 
     if (mem_blocks_tail == right_block)

@@ -32,7 +32,10 @@ mem_block *create_block (size_t size)
     new_block -> free   = false;
     new_block -> next   = NULL;
     new_block -> prev   = old_tail;
+    new_block -> fnext   = NULL;
+    new_block -> fprev   = NULL;
     new_block -> size   = size;
+    
 
     return (new_block);
 }
