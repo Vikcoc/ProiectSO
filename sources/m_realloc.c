@@ -44,7 +44,16 @@ void *realloc (void *ptr, size_t new_size)
     new_size = (new_size + ALIGNMENT - 1) & (~(ALIGNMENT - 1));
     mem_block *ret_block = ((mem_block*) ptr) -1;
 
-    // TODO check block exists
+    mem_block *curr_block = mem_blocks_head;
+
+    while (curr_block != NULL && ptr - sizeof (mem_block) != curr_block)
+        curr_block = curr_block -> next;
+
+    if (curr_block == NULL)
+    {   
+        pthread_mutex_unlock (&mem_mutex);
+        return (NULL);
+    }
 
     if(ret_block -> size == new_size)
     {
