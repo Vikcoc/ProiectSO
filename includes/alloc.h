@@ -24,7 +24,6 @@ extern mem_block *mem_blocks_head;
 extern mem_block *mem_blocks_tail;
 extern mem_block *mem_blocks_fhead;
 extern mem_block *mem_blocks_ftail;
-extern int descriptor;
 
 extern pthread_mutex_t mem_mutex;
 extern pthread_mutex_t write_mutex;
