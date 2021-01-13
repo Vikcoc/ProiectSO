@@ -2,18 +2,21 @@
 
 int main ()
 {
-    debug_print_blocks();
-    void *a = malloc(8);
-    debug_print_blocks();
-    void *b = malloc(12);
-    debug_print_blocks();
-    void *c = malloc(40);
-    debug_print_blocks();
-    free(b);
-    debug_print_blocks();
-    free(a);
-    debug_print_blocks();
+    // debug_print_blocks();
+    // void *a = malloc(8);
+    // debug_print_blocks();
+    // void *b = malloc(12);
+    // debug_print_blocks();
+    // void *c = malloc(40);
+    // debug_print_blocks();
+    // free(b);
+    // debug_print_blocks();
+    // free(a);
+    // debug_print_blocks();
+    // free(c);
+    // debug_print_blocks();
     // print_number(sizeof(mem_block));
+    // write(1,"\n",2);
 
     // int *mems;
 

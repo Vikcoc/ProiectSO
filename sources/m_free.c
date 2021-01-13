@@ -2,28 +2,38 @@
 
 mem_block *add_in_flist (mem_block *curr_block)
 {
-    if(mem_blocks_fhead == NULL)
+    if(mem_blocks_fhead > curr_block)
     {
+        curr_block -> fnext = mem_blocks_fhead;
+        mem_blocks_fhead -> fprev = curr_block;
         mem_blocks_fhead = curr_block;
-        mem_blocks_ftail = curr_block;
     }
     else
     {
-        mem_block* lib = mem_blocks_fhead;
-        while (lib != NULL && lib -> fnext < curr_block)
-            lib = lib -> fnext;
-        if(lib == NULL)
+    
+        if(mem_blocks_fhead == NULL)
         {
-            curr_block -> fprev = mem_blocks_ftail;
-            mem_blocks_ftail = curr_block;
+            mem_blocks_fhead = curr_block;
             mem_blocks_ftail = curr_block;
         }
         else
         {
-            curr_block -> fnext = lib -> fnext;
-            curr_block -> fprev = lib;
-            lib -> fnext = curr_block;
-            curr_block -> fnext -> fprev = curr_block;
+            mem_block* lib = mem_blocks_fhead;
+            while (lib != NULL && lib -> fnext < curr_block)
+                lib = lib -> fnext;
+            if(lib == NULL)
+            {
+                curr_block -> fprev = mem_blocks_ftail;
+                mem_blocks_ftail = curr_block;
+                mem_blocks_ftail = curr_block;
+            }
+            else
+            {
+                curr_block -> fnext = lib -> fnext;
+                curr_block -> fprev = lib;
+                lib -> fnext = curr_block;
+                curr_block -> fnext -> fprev = curr_block;
+            }
         }
     }
     return (curr_block);
