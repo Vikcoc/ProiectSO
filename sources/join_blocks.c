@@ -22,6 +22,8 @@ mem_block *join_blocks (mem_block *left_block)
 {
     mem_block *right_block = left_block -> next;
 
+    // write(1,"join_blocks\n",13);
+
     if (right_block == NULL)
         return (NULL);
 
@@ -52,6 +54,9 @@ mem_block *join_blocks (mem_block *left_block)
     left_block -> next  = right_block -> next;
     left_block -> size  = left_block -> size + right_block -> size + 
                                     sizeof (mem_block);
+
+    // debug_print_blocks();
+    // write(1,"join_blocks end\n",17);
 
     return (left_block);
 }
