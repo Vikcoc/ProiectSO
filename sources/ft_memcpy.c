@@ -13,20 +13,13 @@
  * 
  * return: Destination is returned
  */
-void	*ft_memcpy(void *d, const void *s, size_t n)
+void	*ft_memcpy (void *d, const void *s, size_t n)
 {
-	// void	*ptrd;
-
-	// ptrd = d;
-	// while(n--)
-	// 	*(unsigned char *)ptrd = *(unsigned char *)s;
-	// return (ptrd);
-
-   char *csrc = (char *)s; 
-   char *cdest = (char *)d; 
+   char *source	= (char *)s; 
+   char *dest	= (char *)d; 
   
-   // Copy contents of src[] to dest[] 
    for (size_t i = 0; i < n; i++) 
-       cdest[i] = csrc[i];
+       dest[i] = source[i];
+	   
 	return (d);
 }

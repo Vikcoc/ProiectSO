@@ -15,12 +15,12 @@
  */
 mem_block *extend_block (mem_block *block, size_t size)
 {
-    if(block != mem_blocks_tail || size < 1)
+    if (block != mem_blocks_tail || size < 1)
         return (NULL);
     
-    if(sbrk(size) == (void*) - 1)
+    if (sbrk(size) == (void*) - 1)
         return (NULL);
-    
     block -> size = block -> size + size;
+    
     return (block);
 }

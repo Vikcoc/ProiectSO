@@ -17,7 +17,6 @@
 void free (void *ptr)
 {
     pthread_mutex_lock (&mem_mutex);
-
     mem_block *curr_block = mem_blocks_head;
 
     if (ptr == NULL)

@@ -13,17 +13,12 @@
  * 
  * return: 's' is returned
  */ 
-void	*ft_memset(void *s, int c, size_t n)
+void	*ft_memset (void *s, int c, size_t n)
 {
-	unsigned char *ptr;
+	unsigned char *ptr = (unsigned char*) s;
 	
-	// write(1,"memset\n",7);
-	ptr = (unsigned char *)s;
-	while(n--)
-	{
-		// print_number (n);
-    	// write(1,"   ayyyy\n",9);
+	while (n--)
 		*ptr++ = (unsigned char)c;
-	}
+
 	return (s);
 }

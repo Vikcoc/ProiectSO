@@ -30,8 +30,7 @@ void *realloc (void *ptr, size_t new_size)
 {
     pthread_mutex_lock (&mem_mutex);
 
-    // write(1,"realloc\n",8);
-    if (new_size < 1)
+    if (new_size <= 0)
     {
         pthread_mutex_unlock (&mem_mutex);
         return (NULL);
@@ -43,10 +42,9 @@ void *realloc (void *ptr, size_t new_size)
         return (malloc (new_size));
     }
 
-    new_size = (new_size + ALIGNMENT - 1) & (~(ALIGNMENT - 1));
-    mem_block *ret_block = ((mem_block*) ptr) -1;
-
-    mem_block *curr_block = mem_blocks_head;
+    new_size                = (new_size + ALIGNMENT - 1) & (~(ALIGNMENT - 1));
+    mem_block *ret_block    = ((mem_block*) ptr) -1;
+    mem_block *curr_block   = mem_blocks_head;
 
     while (curr_block != NULL && ptr - sizeof (mem_block) != curr_block)
         curr_block = curr_block -> next;
@@ -57,14 +55,15 @@ void *realloc (void *ptr, size_t new_size)
         return (NULL);
     }
 
-    if(ret_block -> size == new_size)
+    if (ret_block -> size == new_size)
     {
         pthread_mutex_unlock (&mem_mutex);
         return (ptr);
     }
-    if(ret_block -> size > new_size)
+
+    if (ret_block -> size > new_size)
     {
-        ret_block = resize_block(ret_block, new_size);
+        ret_block = resize_block (ret_block, new_size);
         if(ret_block == NULL)
         {
             pthread_mutex_unlock (&mem_mutex);
@@ -75,10 +74,10 @@ void *realloc (void *ptr, size_t new_size)
         return (ret_block + 1);
     }
     
-    if(ret_block == mem_blocks_tail)
+    if (ret_block == mem_blocks_tail)
     {
         size_t temp = new_size - ret_block -> size;
-        if(extend_block(ret_block,temp) == NULL)
+        if (extend_block (ret_block, temp) == NULL)
         {
             pthread_mutex_unlock (&mem_mutex);
             return (NULL);
@@ -88,24 +87,24 @@ void *realloc (void *ptr, size_t new_size)
         return (ret_block + 1);
     }
 
-    if(ret_block -> next -> free && ret_block -> next -> size
+    if (ret_block -> next -> free && ret_block -> next -> size
         >= new_size - ret_block -> size)
     {
         ret_block = join_blocks (ret_block);
-        if(ret_block == NULL)
+        if (ret_block == NULL)
         {
             pthread_mutex_unlock (&mem_mutex);
             return (NULL);
         }
         
-        if(ret_block -> size == new_size)
+        if (ret_block -> size == new_size)
         {
             pthread_mutex_unlock (&mem_mutex);
             return (ret_block);
         }
 
-        ret_block = resize_block(ret_block,new_size);
-        if(ret_block == NULL)
+        ret_block = resize_block (ret_block,new_size);
+        if (ret_block == NULL)
         {
             pthread_mutex_unlock (&mem_mutex);
             return (NULL);
@@ -116,18 +115,17 @@ void *realloc (void *ptr, size_t new_size)
     }
 
     pthread_mutex_unlock (&mem_mutex);
-    void *ret2 = malloc(new_size);
+    void *ret2 = malloc (new_size);
     pthread_mutex_lock (&mem_mutex);
-    if(ret2 == NULL)
+    if (ret2 == NULL)
     {
         pthread_mutex_unlock (&mem_mutex);
         return (NULL);
     }
 
-    ft_memcpy(ret2, ptr, ret_block -> size);
+    ft_memcpy (ret2, ptr, ret_block -> size);
     pthread_mutex_unlock (&mem_mutex);
     free (ptr);
-    pthread_mutex_lock (&mem_mutex);
-    pthread_mutex_unlock (&mem_mutex);
+
     return (ret2);
 }

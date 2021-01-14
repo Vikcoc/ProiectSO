@@ -22,7 +22,6 @@ extern mem_block *mem_blocks_head;
 extern mem_block *mem_blocks_tail;
 
 extern pthread_mutex_t mem_mutex;
-extern pthread_mutex_t write_mutex;
 
 void *malloc (size_t size);
 
@@ -47,6 +46,8 @@ void *ft_memcpy (void *d, const void *s, size_t n);
 void *ft_memset (void *s, int c, size_t n);
 
 // DEBUG
+
+extern pthread_mutex_t write_mutex;
 
 void print_number (unsigned long v);
 

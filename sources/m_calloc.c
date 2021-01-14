@@ -22,22 +22,21 @@ void *calloc (size_t num, size_t size)
 {
     pthread_mutex_lock (&mem_mutex);
 
-    // write(1,"calloc\n",7);
     if(num < 1 || size < 1)
-        return NULL;
+        return (NULL);
     
-    // write (1, "calling malloc: ", 16);
     pthread_mutex_unlock (&mem_mutex);
     mem_block *ret_block = (mem_block*) malloc(num * size);
     pthread_mutex_lock (&mem_mutex);
+
     if (ret_block == NULL)
     {
         pthread_mutex_unlock (&mem_mutex);
-        return NULL;
+        return (NULL);
     }
     
-    // write(1,"starting memset\n",16);
-    ft_memset(ret_block, 0, (ret_block - 1) -> size);
+    ft_memset (ret_block, 0, (ret_block - 1) -> size);
     pthread_mutex_unlock (&mem_mutex);
+
     return ret_block;
 }

@@ -36,7 +36,7 @@ mem_block *resize_block (mem_block *block, size_t new_size)
         free_block_size + sizeof(mem_block))
         return (block);
 
-    if(block -> size < new_size)
+    if (block -> size < new_size)
         return (NULL);
     
     if (block -> size - new_size - sizeof(mem_block) <= 
@@ -50,18 +50,13 @@ mem_block *resize_block (mem_block *block, size_t new_size)
     blk -> next     = block -> next;
     block -> size   = new_size;
     blk -> size     = block -> size - new_size - sizeof(mem_block);
-    // write (1, "\n\nBlock size: ", 14);
-    // print_number (block -> size);
-    // write (1, "\nNew size: ", 11);
-    // print_number (new_size);
-    // write (1, "\nFree block size: ", 18);
-    print_number (block -> size - new_size - sizeof(mem_block));
     block -> next   = blk;
-    if(blk -> next != NULL)
+
+    if (blk -> next != NULL)
     {
         blk -> next -> prev = blk;
-        if(blk -> next -> free)
-            join_blocks(blk);
+        if (blk -> next -> free)
+            join_blocks (blk);
     }
     else
         mem_blocks_tail = blk;

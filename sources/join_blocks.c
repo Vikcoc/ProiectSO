@@ -29,8 +29,8 @@ mem_block *join_blocks (mem_block *left_block)
 
     if (mem_blocks_tail == right_block)
     {
-        mem_blocks_tail = left_block;
-        left_block -> next = NULL;
+        mem_blocks_tail     = left_block;
+        left_block -> next  = NULL;
     }
 
     if (right_block -> next != NULL)
